@@ -359,7 +359,7 @@ function openApp(){
  renderSubjects();renderProgress();showPage('home');
 }
 document.getElementById('logout').onclick=()=>{localStorage.removeItem('skillup_session');location.reload()};
-document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>showPage(b.dataset.page));
+document.querySelectorAll('.nav button[data-page]').forEach(b=>{   b.onclick=()=>showPage(b.dataset.page); });
 document.getElementById('subjectSearch').oninput=e=>{
  const term=e.target.value.toLowerCase();
  document.querySelectorAll('#subjectGrid .subject').forEach(c=>c.style.display=c.dataset.name.includes(term)?'block':'none');
