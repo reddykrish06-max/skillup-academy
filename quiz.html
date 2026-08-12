@@ -374,7 +374,7 @@ button:disabled{
 
         <label for="subject">Subject</label>
 
-        <select id="subject">
+        <select id="subject" onchange="updateTopics()">
 
           <option value="Physics">Physics</option>
           <option value="Chemistry">Chemistry</option>
@@ -391,37 +391,7 @@ button:disabled{
 
         <label for="topic">Chapter / Topic</label>
 
-        <select id="topic">
-
-          <option value="Units & Measurements">
-            Units & Measurements
-          </option>
-
-          <option value="Motion in One Dimension">
-            Motion in One Dimension
-          </option>
-
-          <option value="Laws of Motion">
-            Laws of Motion
-          </option>
-
-          <option value="Work, Energy & Power">
-            Work, Energy & Power
-          </option>
-
-          <option value="Organic Chemistry — GOC">
-            Organic Chemistry — GOC
-          </option>
-
-          <option value="Cell Biology">
-            Cell Biology
-          </option>
-
-          <option value="Human Physiology">
-            Human Physiology
-          </option>
-
-        </select>
+        <select id="topic"></select>
 
       </div>
 
@@ -551,6 +521,87 @@ const questionBank = [
     answer:2,
     explanation:
       "Candela (cd) is the SI base unit of luminous intensity."
+  },
+
+
+  {
+    subject:"Physics",
+    topic:"Units & Measurements",
+    difficulty:"Easy",
+    question:"Which SI unit is used for amount of substance?",
+    options:["Kilogram","Mole","Kelvin","Ampere"],
+    answer:1,
+    explanation:"Mole (mol) is the SI base unit for amount of substance."
+  },
+
+  {
+    subject:"Physics",
+    topic:"Units & Measurements",
+    difficulty:"Medium",
+    question:"The dimensional formula of velocity is:",
+    options:["[M L T⁻¹]","[L T⁻¹]","[L T⁻²]","[M L T⁻²]"],
+    answer:1,
+    explanation:"Velocity is displacement divided by time, so its dimensions are [L T⁻¹]."
+  },
+
+  {
+    subject:"Physics",
+    topic:"Units & Measurements",
+    difficulty:"Medium",
+    question:"Which pair contains only SI base quantities?",
+    options:["Force and energy","Length and time","Pressure and power","Velocity and acceleration"],
+    answer:1,
+    explanation:"Length and time are both SI base quantities."
+  },
+
+  {
+    subject:"Physics",
+    topic:"Units & Measurements",
+    difficulty:"Hard",
+    question:"The number of significant figures in 0.004050 is:",
+    options:["2","3","4","5"],
+    answer:2,
+    explanation:"Leading zeros are not significant; the digits 4, 0, 5, and 0 are significant, giving 4 significant figures."
+  },
+
+  {
+    subject:"Physics",
+    topic:"Units & Measurements",
+    difficulty:"Medium",
+    question:"Which quantity has the same dimensions as pressure?",
+    options:["Energy","Force per unit area","Momentum","Power"],
+    answer:1,
+    explanation:"Pressure = force/area, so its dimensions are [M L⁻¹ T⁻²]."
+  },
+
+  {
+    subject:"Physics",
+    topic:"Units & Measurements",
+    difficulty:"Easy",
+    question:"The SI base unit of thermodynamic temperature is:",
+    options:["Celsius","Fahrenheit","Kelvin","Joule"],
+    answer:2,
+    explanation:"Kelvin (K) is the SI base unit of thermodynamic temperature."
+  },
+
+  {
+    subject:"Physics",
+    topic:"Units & Measurements",
+    difficulty:"Hard",
+    question:"If a measured length is 2.0 m and the measurement has two significant figures, the result is:",
+    options:["2 m","2.0 m","2.00 m","2.000 m"],
+    answer:1,
+    explanation:"The notation 2.0 m contains two significant figures."
+  },
+
+  {
+    subject:"Physics",
+    topic:"Units & Measurements",
+    difficulty:"Easy",
+    question:"Which of the following is a derived SI unit?",
+    options:["Second","Kelvin","Newton","Mole"],
+    answer:2,
+    explanation:"Newton is a derived SI unit: 1 N = 1 kg·m·s⁻²."
   },
 
   {
@@ -743,6 +794,64 @@ let currentQuestions = [];
 let userScore = 0;
 
 
+function updateTopics(){
+
+  const subject =
+    document.getElementById("subject").value;
+
+  const topic =
+    document.getElementById("topic");
+
+  const topics = {
+
+    "Physics":[
+      "Units & Measurements",
+      "Motion in One Dimension",
+      "Laws of Motion",
+      "Work, Energy & Power"
+    ],
+
+    "Chemistry":[
+      "Organic Chemistry — GOC"
+    ],
+
+    "Botany":[
+      "Cell Biology"
+    ],
+
+    "Zoology":[
+      "Human Physiology"
+    ],
+
+    "Mathematics":[
+      "Sets & Relations",
+      "Quadratic Equations",
+      "Sequence & Series",
+      "Differential Calculus"
+    ]
+
+  };
+
+  topic.innerHTML = "";
+
+  const selectedTopics =
+    topics[subject] || [];
+
+  selectedTopics.forEach(function(item){
+
+    const option =
+      document.createElement("option");
+
+    option.value = item;
+    option.textContent = item;
+
+    topic.appendChild(option);
+
+  });
+
+}
+
+
 function generateQuiz(){
 
   const exam =
@@ -801,11 +910,11 @@ function generateQuiz(){
 
       <section class="card empty">
 
-        <h2>📚 Questions Coming Soon</h2>
+        <h2>📚 More Questions Coming Soon</h2>
 
         <p>
-          We are currently expanding the SkillUp
-          question bank for:
+          The SkillUp question bank does not yet have
+          questions for this topic and difficulty.
         </p>
 
         <br>
@@ -869,6 +978,9 @@ function generateQuiz(){
             |
             Difficulty:
             <strong>${difficulty}</strong>
+            |
+            Questions:
+            <strong>${currentQuestions.length}</strong>
 
           </p>
 
@@ -1258,6 +1370,8 @@ Continue until all ${count} questions are completed.
   );
 
 }
+
+updateTopics();
 
 </script>
 
