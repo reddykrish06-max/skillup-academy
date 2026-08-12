@@ -250,13 +250,28 @@ function renderSubjects(){
 function chooseSubject(id){currentSubject=id;document.getElementById('quizSubject').value=id;showPage('quiz');startQuiz()}
 
 function showPage(page){
- document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));
- document.getElementById('page-'+page).classList.remove('hidden');
- document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
- if(page==='progress')renderProgress();
- window.scrollTo({top:0,behavior:'smooth'});
-}
+  document.querySelectorAll('.page').forEach(x => {
+    x.classList.add('hidden');
+  });
 
+  const target = document.getElementById('page-' + page);
+
+  if(target){
+    target.classList.remove('hidden');
+    target.style.display = 'block';
+  }
+
+  document.querySelectorAll('.nav button').forEach(b => {
+    b.classList.toggle('active', b.dataset.page === page);
+  });
+
+  if(page === 'progress'){
+    renderProgress();
+  }
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+  
 function renderProgress(){
  const p=getProgress(),qCount=p.reduce((a,x)=>a+x.total,0),avg=p.length?Math.round(p.reduce((a,x)=>a+x.percent,0)/p.length):0;
  document.getElementById('kpiQuizzes').textContent=p.length;
