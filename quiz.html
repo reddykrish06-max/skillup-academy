@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SkillUp Academy | AI Quiz</title>
+
+<style>
+:root{
+  --primary:#1769e0;
+  --secondary:#315be8;
+  --bg:#f5f8fc;
+  --card:#ffffff;
+  --text:#172033;
+  --muted:#667280;
+  --border:#e1e7ef;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+header{
+  height:68px;
+  background:white;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 6%;
+}
+
+.logo{
+  font-size:23px;
+  font-weight:800;
+  color:var(--primary);
+}
+
+nav a{
+  text-decoration:none;
+  color:var(--text);
+  margin-left:25px;
+  font-weight:600;
+}
+
+nav a:hover{
+  color:var(--primary);
+}
+
+.container{
+  max-width:1000px;
+  margin:40px auto;
+  padding:0 20px;
+}
+
+.hero{
+  background:linear-gradient(135deg,#123b70,#1769e0);
+  color:white;
+  padding:45px;
+  border-radius:24px;
+  margin-bottom:30px;
+}
+
+.hero h1{
+  font-size:40px;
+  margin-bottom:12px;
+}
+
+.hero p{
+  font-size:17px;
+  opacity:.9;
+}
+
+.card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:30px;
+  box-shadow:0 8px 25px rgba(20,40,80,.06);
+}
+
+h2{
+  margin-bottom:25px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+label{
+  display:block;
+  font-weight:700;
+  margin-bottom:8px;
+}
+
+select,input{
+  width:100%;
+  padding:13px;
+  border:1px solid #ccd5e0;
+  border-radius:10px;
+  font-size:15px;
+  background:white;
+}
+
+button{
+  border:none;
+  border-radius:10px;
+  padding:13px 22px;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.primary{
+  background:var(--primary);
+  color:white;
+}
+
+.primary:hover{
+  background:#0d55bf;
+}
+
+.chatgpt{
+  background:#111827;
+  color:white;
+}
+
+.buttons{
+  display:flex;
+  gap:12px;
+  margin-top:25px;
+}
+
+.notice{
+  margin-top:20px;
+  padding:15px;
+  background:#fff8df;
+  border-radius:10px;
+  color:#705800;
+  font-size:14px;
+}
+
+#quizArea{
+  margin-top:30px;
+}
+
+.question{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:22px;
+  margin-bottom:18px;
+}
+
+.question h3{
+  margin-bottom:15px;
+}
+
+.option{
+  display:block;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  margin:8px 0;
+  cursor:pointer;
+}
+
+.option:hover{
+  background:#f1f6ff;
+}
+
+.result{
+  background:#e9f8ef;
+  border:1px solid #b7e4c7;
+  padding:20px;
+  border-radius:15px;
+  margin-top:20px;
+}
+
+@media(max-width:700px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .hero h1{
+    font-size:30px;
+  }
+
+  nav{
+    display:none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="logo">
+    🅂 SkillUp Academy
+  </div>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="quiz.html">Quiz</a>
+  </nav>
+
+</header>
+
+
+<div class="container">
+
+  <section class="hero">
+    <h1>🧠 AI Quiz Generator</h1>
+    <p>
+      Create focused NEET/JEE practice quizzes by subject,
+      chapter and difficulty.
+    </p>
+  </section>
+
+
+  <section class="card">
+
+    <h2>Configure Your Quiz</h2>
+
+    <div class="grid">
+
+      <div>
+        <label>Exam</label>
+
+        <select id="exam">
+          <option>NEET</option>
+          <option>JEE Main</option>
+          <option>JEE Advanced</option>
+        </select>
+
+      </div>
+
+
+      <div>
+        <label>Subject</label>
+
+        <select id="subject">
+
+          <option>Physics</option>
+          <option>Chemistry</option>
+          <option>Botany</option>
+          <option>Zoology</option>
+          <option>Mathematics</option>
+
+        </select>
+
+      </div>
+
+
+      <div>
+
+        <label>Chapter / Topic</label>
+
+        <select id="topic">
+
+          <option>Units & Measurements</option>
+          <option>Motion in One Dimension</option>
+          <option>Laws of Motion</option>
+          <option>Work, Energy & Power</option>
+          <option>Organic Chemistry — GOC</option>
+          <option>Cell Biology</option>
+          <option>Human Physiology</option>
+
+        </select>
+
+      </div>
+
+
+      <div>
+
+        <label>Difficulty</label>
+
+        <select id="difficulty">
+
+          <option>Easy</option>
+          <option selected>Medium</option>
+          <option>Hard</option>
+
+        </select>
+
+      </div>
+
+
+      <div>
+
+        <label>Number of Questions</label>
+
+        <select id="questions">
+
+          <option>5</option>
+          <option selected>10</option>
+          <option>20</option>
+          <option>30</option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <div class="buttons">
+
+      <button class="primary" onclick="generateQuiz()">
+        🚀 Generate Quiz
+      </button>
+
+      <button class="chatgpt" onclick="createWithChatGPT()">
+        ✨ Create with ChatGPT
+      </button>
+
+    </div>
+
+
+    <div class="notice">
+
+      ⚠️ The ChatGPT button opens ChatGPT with a prepared
+      quiz-generation prompt. No OpenAI secret API key is stored
+      in this GitHub Pages website.
+
+    </div>
+
+  </section>
+
+
+  <div id="quizArea"></div>
+
+</div>
+
+
+<script>
+
+function generateQuiz(){
+
+  const exam =
+    document.getElementById("exam").value;
+
+  const subject =
+    document.getElementById("subject").value;
+
+  const topic =
+    document.getElementById("topic").value;
+
+  const difficulty =
+    document.getElementById("difficulty").value;
+
+  const count =
+    document.getElementById("questions").value;
+
+
+  const quizArea =
+    document.getElementById("quizArea");
+
+
+  quizArea.innerHTML = `
+
+    <section class="card">
+
+      <h2>
+        ${exam} — ${subject}
+      </h2>
+
+      <p>
+        Topic: <strong>${topic}</strong>
+        <br>
+        Difficulty: <strong>${difficulty}</strong>
+        <br>
+        Questions: <strong>${count}</strong>
+      </p>
+
+      <br>
+
+      <div class="question">
+
+        <h3>
+          Sample Question
+        </h3>
+
+        <p>
+          This is where the generated SkillUp
+          question will appear.
+        </p>
+
+        <label class="option">
+          <input type="radio" name="q1">
+          Option A
+        </label>
+
+        <label class="option">
+          <input type="radio" name="q1">
+          Option B
+        </label>
+
+        <label class="option">
+          <input type="radio" name="q1">
+          Option C
+        </label>
+
+        <label class="option">
+          <input type="radio" name="q1">
+          Option D
+        </label>
+
+      </div>
+
+    </section>
+
+  `;
+
+}
+
+
+function createWithChatGPT(){
+
+  const exam =
+    document.getElementById("exam").value;
+
+  const subject =
+    document.getElementById("subject").value;
+
+  const topic =
+    document.getElementById("topic").value;
+
+  const difficulty =
+    document.getElementById("difficulty").value;
+
+  const count =
+    document.getElementById("questions").value;
+
+
+  const prompt = `
+
+Create a ${count}-question ${exam} level MCQ quiz
+for SkillUp Academy.
+
+Subject: ${subject}
+
+Chapter/Topic: ${topic}
+
+Difficulty: ${difficulty}
+
+Requirements:
+
+1. Create exactly ${count} MCQs.
+2. Give four options A, B, C and D.
+3. Give the correct answer.
+4. Give a short explanation.
+5. Follow NCERT-based concepts where applicable.
+6. Make the questions suitable for ${exam}.
+7. Do not repeat questions.
+8. Format clearly for students.
+
+  `;
+
+
+  const url =
+    "https://chatgpt.com/?q=" +
+    encodeURIComponent(prompt);
+
+
+  window.open(url,"_blank");
+
+}
+
+</script>
+
+</body>
+</html>
