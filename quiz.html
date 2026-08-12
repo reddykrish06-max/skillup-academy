@@ -468,540 +468,199 @@ button:disabled{
 
 
 <script>
+/* =========================================================
+   SKILLUP ACADEMY — GEMINI AI QUIZ
+   Firebase Function: generateQuiz
+========================================================= */
 
-/* ==========================================
-   SKILLUP QUESTION BANK
-========================================== */
-
-const questionBank = [
-
-  {
-    subject:"Physics",
-    topic:"Units & Measurements",
-    difficulty:"Easy",
-    question:"Which of the following is an SI base unit?",
-    options:[
-      "Newton",
-      "Joule",
-      "Metre",
-      "Watt"
-    ],
-    answer:2,
-    explanation:
-      "Metre is one of the seven SI base units."
-  },
-
-  {
-    subject:"Physics",
-    topic:"Units & Measurements",
-    difficulty:"Medium",
-    question:"Which of the following is a dimensionless quantity?",
-    options:[
-      "Velocity",
-      "Strain",
-      "Force",
-      "Momentum"
-    ],
-    answer:1,
-    explanation:
-      "Strain is the ratio of change in length to original length, so it has no dimensions."
-  },
-
-  {
-    subject:"Physics",
-    topic:"Units & Measurements",
-    difficulty:"Medium",
-    question:"The SI unit of luminous intensity is:",
-    options:[
-      "Lumen",
-      "Lux",
-      "Candela",
-      "Watt"
-    ],
-    answer:2,
-    explanation:
-      "Candela (cd) is the SI base unit of luminous intensity."
-  },
-
-
-  {
-    subject:"Physics",
-    topic:"Units & Measurements",
-    difficulty:"Easy",
-    question:"Which SI unit is used for amount of substance?",
-    options:["Kilogram","Mole","Kelvin","Ampere"],
-    answer:1,
-    explanation:"Mole (mol) is the SI base unit for amount of substance."
-  },
-
-  {
-    subject:"Physics",
-    topic:"Units & Measurements",
-    difficulty:"Medium",
-    question:"The dimensional formula of velocity is:",
-    options:["[M L T⁻¹]","[L T⁻¹]","[L T⁻²]","[M L T⁻²]"],
-    answer:1,
-    explanation:"Velocity is displacement divided by time, so its dimensions are [L T⁻¹]."
-  },
-
-  {
-    subject:"Physics",
-    topic:"Units & Measurements",
-    difficulty:"Medium",
-    question:"Which pair contains only SI base quantities?",
-    options:["Force and energy","Length and time","Pressure and power","Velocity and acceleration"],
-    answer:1,
-    explanation:"Length and time are both SI base quantities."
-  },
-
-  {
-    subject:"Physics",
-    topic:"Units & Measurements",
-    difficulty:"Hard",
-    question:"The number of significant figures in 0.004050 is:",
-    options:["2","3","4","5"],
-    answer:2,
-    explanation:"Leading zeros are not significant; the digits 4, 0, 5, and 0 are significant, giving 4 significant figures."
-  },
-
-  {
-    subject:"Physics",
-    topic:"Units & Measurements",
-    difficulty:"Medium",
-    question:"Which quantity has the same dimensions as pressure?",
-    options:["Energy","Force per unit area","Momentum","Power"],
-    answer:1,
-    explanation:"Pressure = force/area, so its dimensions are [M L⁻¹ T⁻²]."
-  },
-
-  {
-    subject:"Physics",
-    topic:"Units & Measurements",
-    difficulty:"Easy",
-    question:"The SI base unit of thermodynamic temperature is:",
-    options:["Celsius","Fahrenheit","Kelvin","Joule"],
-    answer:2,
-    explanation:"Kelvin (K) is the SI base unit of thermodynamic temperature."
-  },
-
-  {
-    subject:"Physics",
-    topic:"Units & Measurements",
-    difficulty:"Hard",
-    question:"If a measured length is 2.0 m and the measurement has two significant figures, the result is:",
-    options:["2 m","2.0 m","2.00 m","2.000 m"],
-    answer:1,
-    explanation:"The notation 2.0 m contains two significant figures."
-  },
-
-  {
-    subject:"Physics",
-    topic:"Units & Measurements",
-    difficulty:"Easy",
-    question:"Which of the following is a derived SI unit?",
-    options:["Second","Kelvin","Newton","Mole"],
-    answer:2,
-    explanation:"Newton is a derived SI unit: 1 N = 1 kg·m·s⁻²."
-  },
-
-  {
-    subject:"Physics",
-    topic:"Motion in One Dimension",
-    difficulty:"Medium",
-    question:"The slope of a velocity-time graph represents:",
-    options:[
-      "Distance",
-      "Acceleration",
-      "Displacement",
-      "Momentum"
-    ],
-    answer:1,
-    explanation:
-      "The slope of a velocity-time graph gives acceleration."
-  },
-
-  {
-    subject:"Physics",
-    topic:"Motion in One Dimension",
-    difficulty:"Easy",
-    question:"The SI unit of acceleration is:",
-    options:[
-      "m/s",
-      "m/s²",
-      "km/h",
-      "N"
-    ],
-    answer:1,
-    explanation:
-      "Acceleration is change in velocity per unit time, so its SI unit is m/s²."
-  },
-
-  {
-    subject:"Physics",
-    topic:"Laws of Motion",
-    difficulty:"Easy",
-    question:"Newton's first law of motion is also known as the law of:",
-    options:[
-      "Acceleration",
-      "Inertia",
-      "Momentum",
-      "Gravitation"
-    ],
-    answer:1,
-    explanation:
-      "Newton's first law is called the law of inertia."
-  },
-
-  {
-    subject:"Physics",
-    topic:"Laws of Motion",
-    difficulty:"Medium",
-    question:"According to Newton's second law, force is equal to:",
-    options:[
-      "mv",
-      "ma",
-      "m/a",
-      "v/a"
-    ],
-    answer:1,
-    explanation:
-      "For constant mass, Newton's second law gives F = ma."
-  },
-
-  {
-    subject:"Physics",
-    topic:"Work, Energy & Power",
-    difficulty:"Easy",
-    question:"The SI unit of work is:",
-    options:[
-      "Newton",
-      "Joule",
-      "Watt",
-      "Pascal"
-    ],
-    answer:1,
-    explanation:
-      "The SI unit of work is joule (J)."
-  },
-
-
-  {
-    subject:"Chemistry",
-    topic:"Organic Chemistry — GOC",
-    difficulty:"Medium",
-    question:"Which effect involves permanent displacement of sigma electrons?",
-    options:[
-      "Inductive effect",
-      "Electromeric effect",
-      "Resonance",
-      "Hyperconjugation"
-    ],
-    answer:0,
-    explanation:
-      "The inductive effect is the permanent polarization of sigma bonds."
-  },
-
-  {
-    subject:"Chemistry",
-    topic:"Organic Chemistry — GOC",
-    difficulty:"Easy",
-    question:"Which type of bond is formed by sharing of electrons?",
-    options:[
-      "Ionic bond",
-      "Covalent bond",
-      "Metallic bond",
-      "Hydrogen bond"
-    ],
-    answer:1,
-    explanation:
-      "A covalent bond is formed by sharing electron pairs between atoms."
-  },
-
-
-  {
-    subject:"Botany",
-    topic:"Cell Biology",
-    difficulty:"Easy",
-    question:"The powerhouse of the cell is:",
-    options:[
-      "Nucleus",
-      "Ribosome",
-      "Mitochondrion",
-      "Golgi apparatus"
-    ],
-    answer:2,
-    explanation:
-      "Mitochondria generate ATP and are commonly called the powerhouse of the cell."
-  },
-
-  {
-    subject:"Botany",
-    topic:"Cell Biology",
-    difficulty:"Medium",
-    question:"Which organelle contains chlorophyll?",
-    options:[
-      "Mitochondria",
-      "Chloroplast",
-      "Ribosome",
-      "Lysosome"
-    ],
-    answer:1,
-    explanation:
-      "Chlorophyll is present in chloroplasts and participates in photosynthesis."
-  },
-
-
-  {
-    subject:"Zoology",
-    topic:"Human Physiology",
-    difficulty:"Easy",
-    question:"Which hormone primarily lowers blood glucose?",
-    options:[
-      "Glucagon",
-      "Insulin",
-      "Adrenaline",
-      "Thyroxine"
-    ],
-    answer:1,
-    explanation:
-      "Insulin promotes glucose uptake and storage and therefore lowers blood glucose."
-  },
-
-  {
-    subject:"Zoology",
-    topic:"Human Physiology",
-    difficulty:"Easy",
-    question:"The functional unit of the kidney is:",
-    options:[
-      "Neuron",
-      "Nephron",
-      "Alveolus",
-      "Sarcomere"
-    ],
-    answer:1,
-    explanation:
-      "The nephron is the structural and functional unit of the kidney."
-  }
-
-];
-
-
-/* ==========================================
-   GENERATE QUIZ
-========================================== */
+const FIREBASE_FUNCTION_URL =
+  "https://us-central1-skill-up-j6olyb.cloudfunctions.net/generateQuiz";
 
 let currentQuestions = [];
 let userScore = 0;
 
-
-function updateTopics(){
-
-  const subject =
-    document.getElementById("subject").value;
-
-  const topic =
-    document.getElementById("topic");
+function updateTopics() {
+  const subject = document.getElementById("subject").value;
+  const topic = document.getElementById("topic");
 
   const topics = {
-
-    "Physics":[
+    Physics: [
       "Units & Measurements",
       "Motion in One Dimension",
       "Laws of Motion",
       "Work, Energy & Power"
     ],
 
-    "Chemistry":[
-      "Organic Chemistry — GOC"
+    Chemistry: [
+      "Organic Chemistry — GOC",
+      "Some Basic Concepts of Chemistry",
+      "Atomic Structure",
+      "Chemical Bonding",
+      "Thermodynamics",
+      "Equilibrium"
     ],
 
-    "Botany":[
-      "Cell Biology"
+    Botany: [
+      "Cell Biology",
+      "Plant Physiology",
+      "Plant Kingdom",
+      "Morphology of Flowering Plants"
     ],
 
-    "Zoology":[
-      "Human Physiology"
+    Zoology: [
+      "Human Physiology",
+      "Animal Kingdom",
+      "Human Reproduction",
+      "Genetics & Evolution"
     ],
 
-    "Mathematics":[
+    Mathematics: [
       "Sets & Relations",
       "Quadratic Equations",
       "Sequence & Series",
       "Differential Calculus"
     ]
-
   };
 
   topic.innerHTML = "";
 
-  const selectedTopics =
-    topics[subject] || [];
-
-  selectedTopics.forEach(function(item){
-
-    const option =
-      document.createElement("option");
-
+  (topics[subject] || []).forEach(function(item) {
+    const option = document.createElement("option");
     option.value = item;
     option.textContent = item;
-
     topic.appendChild(option);
-
   });
-
 }
 
+async function generateQuiz() {
+  const exam = document.getElementById("exam").value;
+  const subject = document.getElementById("subject").value;
+  const topic = document.getElementById("topic").value;
+  const difficulty = document.getElementById("difficulty").value;
+  const count = Number(document.getElementById("questions").value);
+  const quizArea = document.getElementById("quizArea");
 
-function generateQuiz(){
-
-  const exam =
-    document.getElementById("exam").value;
-
-  const subject =
-    document.getElementById("subject").value;
-
-  const topic =
-    document.getElementById("topic").value;
-
-  const difficulty =
-    document.getElementById("difficulty").value;
-
-  const count =
-    Number(document.getElementById("questions").value);
-
-
-  const quizArea =
-    document.getElementById("quizArea");
-
-
-  let availableQuestions =
-    questionBank.filter(function(q){
-
-      return q.subject === subject &&
-             q.topic === topic;
-
-    });
-
-
-  /*
-     If exact difficulty does not exist,
-     use all questions for that topic.
-  */
-
-  let difficultyQuestions =
-    availableQuestions.filter(function(q){
-
-      return q.difficulty === difficulty;
-
-    });
-
-
-  if(difficultyQuestions.length > 0){
-
-    availableQuestions =
-      difficultyQuestions;
-
+  if (!exam || !subject || !topic || !difficulty || !count) {
+    quizArea.innerHTML = `
+      <section class="card empty">
+        <h2>⚠️ Please select all quiz options</h2>
+      </section>
+    `;
+    return;
   }
 
+  quizArea.innerHTML = `
+    <section class="card empty">
+      <h2>🧠 Generating your quiz...</h2>
+      <p class="small">
+        Gemini is creating exactly ${count} questions for
+        ${subject} — ${topic}.
+      </p>
+    </section>
+  `;
 
-  if(availableQuestions.length === 0){
+  try {
+    const response = await fetch(FIREBASE_FUNCTION_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        exam: exam,
+        subject: subject,
+        topic: topic,
+        difficulty: difficulty,
+        count: count
+      })
+    });
+
+    const data = await response.json().catch(function() {
+      return {};
+    });
+
+    if (!response.ok || !data.success) {
+      throw new Error(
+        data.error || "The AI quiz service returned an error."
+      );
+    }
+
+    if (!Array.isArray(data.questions)) {
+      throw new Error("Invalid quiz data received from Firebase.");
+    }
+
+    if (data.questions.length !== count) {
+      throw new Error(
+        "Requested " +
+        count +
+        " questions, but received " +
+        data.questions.length +
+        ". Please try again."
+      );
+    }
+
+    currentQuestions = data.questions.map(function(q) {
+      return {
+        question: String(q.question || ""),
+        options: Array.isArray(q.options) ? q.options : [],
+        answer: Number(q.answer),
+        explanation: String(q.explanation || "")
+      };
+    });
+
+    userScore = 0;
+
+    renderQuiz(exam, subject, topic, difficulty);
+
+  } catch (error) {
+    console.error("Generate Quiz error:", error);
 
     quizArea.innerHTML = `
-
       <section class="card empty">
-
-        <h2>📚 More Questions Coming Soon</h2>
-
-        <p>
-          The SkillUp question bank does not yet have
-          questions for this topic and difficulty.
-        </p>
-
+        <h2>❌ Unable to generate the quiz</h2>
+        <p class="small">${escapeHtml(error.message)}</p>
         <br>
-
-        <strong>
-          ${subject} — ${topic}
-        </strong>
-
-        <br><br>
-
-        <p class="small">
-          Try another topic or use the
-          "Create with ChatGPT" option.
-        </p>
-
+        <button class="primary" onclick="generateQuiz()">
+          🔄 Try Again
+        </button>
       </section>
-
     `;
-
-    return;
-
   }
+}
 
-
-  /*
-     Randomize questions
-  */
-
-  availableQuestions.sort(function(){
-
-    return Math.random() - 0.5;
-
-  });
-
-
-  currentQuestions =
-    availableQuestions.slice(
-      0,
-      Math.min(count, availableQuestions.length)
-    );
-
-
-  userScore = 0;
-
+function renderQuiz(exam, subject, topic, difficulty) {
+  const quizArea = document.getElementById("quizArea");
 
   let html = `
-
     <section class="card">
 
       <div class="quiz-header">
 
         <div>
-
-          <h2>
-            ${exam} — ${subject}
-          </h2>
+          <h2>${escapeHtml(exam)} — ${escapeHtml(subject)}</h2>
 
           <p class="small">
-
-            Topic: <strong>${topic}</strong>
+            Topic:
+            <strong>${escapeHtml(topic)}</strong>
             |
             Difficulty:
-            <strong>${difficulty}</strong>
+            <strong>${escapeHtml(difficulty)}</strong>
             |
             Questions:
             <strong>${currentQuestions.length}</strong>
-
           </p>
-
         </div>
 
         <div class="score-box">
-
           Score:
           <span id="liveScore">0</span>
-
         </div>
 
       </div>
-
   `;
 
-
-  currentQuestions.forEach(function(q,index){
+  currentQuestions.forEach(function(q, index) {
 
     html += `
-
       <div class="question">
 
         <h3>
@@ -1009,16 +668,13 @@ function generateQuiz(){
         </h3>
 
         <p class="question-text">
-          ${q.question}
+          ${escapeHtml(q.question)}
         </p>
-
     `;
 
-
-    q.options.forEach(function(option,optionIndex){
+    q.options.forEach(function(option, optionIndex) {
 
       html += `
-
         <label class="option">
 
           <input
@@ -1028,250 +684,149 @@ function generateQuiz(){
           >
 
           ${String.fromCharCode(65 + optionIndex)}.
-          ${option}
+          ${escapeHtml(option)}
 
         </label>
-
       `;
-
     });
 
-
     html += `
-
         <button
           class="primary"
-          onclick="checkAnswer(${index})">
-
+          onclick="checkAnswer(${index})"
+        >
           Check Answer
-
         </button>
-
 
         <div
           id="feedback${index}"
-          class="feedback">
-
-        </div>
+          class="feedback"
+        ></div>
 
       </div>
-
     `;
-
   });
 
-
   html += `
-
       <div id="finalResult"></div>
 
     </section>
-
   `;
-
 
   quizArea.innerHTML = html;
 
-
   window.scrollTo({
-
-    top:quizArea.offsetTop - 20,
-    behavior:"smooth"
-
+    top: quizArea.offsetTop - 20,
+    behavior: "smooth"
   });
-
 }
 
+function checkAnswer(index) {
+  const question = currentQuestions[index];
 
-/* ==========================================
-   CHECK ANSWER
-========================================== */
+  const selected = document.querySelector(
+    `input[name="question${index}"]:checked`
+  );
 
-function checkAnswer(index){
+  const feedback = document.getElementById(
+    `feedback${index}`
+  );
 
-  const question =
-    currentQuestions[index];
-
-
-  const selected =
-    document.querySelector(
-      `input[name="question${index}"]:checked`
-    );
-
-
-  const feedback =
-    document.getElementById(
-      `feedback${index}`
-    );
-
-
-  if(!selected){
-
-    feedback.className =
-      "feedback incorrect";
-
-    feedback.innerHTML =
-      "⚠️ Please select an answer.";
-
+  if (!selected) {
+    feedback.className = "feedback incorrect";
+    feedback.innerHTML = "⚠️ Please select an answer.";
     return;
-
   }
 
-
-  const selectedAnswer =
-    Number(selected.value);
-
-
-  /*
-     Prevent changing score repeatedly
-  */
-
-  if(feedback.dataset.checked === "true"){
-
+  if (feedback.dataset.checked === "true") {
     return;
-
   }
-
 
   feedback.dataset.checked = "true";
 
+  const selectedAnswer = Number(selected.value);
 
-  if(selectedAnswer === question.answer){
-
+  if (selectedAnswer === question.answer) {
     userScore++;
 
-
-    feedback.className =
-      "feedback correct";
-
+    feedback.className = "feedback correct";
 
     feedback.innerHTML = `
-
       ✅ <strong>Correct!</strong>
-
       <br>
-
-      <span>
-        ${question.explanation}
-      </span>
-
+      <span>${escapeHtml(question.explanation)}</span>
     `;
+  } else {
+    const answerLetter =
+      String.fromCharCode(65 + question.answer);
 
-  }
-
-  else{
-
-    feedback.className =
-      "feedback incorrect";
-
+    feedback.className = "feedback incorrect";
 
     feedback.innerHTML = `
-
       ❌ <strong>Incorrect.</strong>
-
       <br>
-
       Correct answer:
       <strong>
-        ${String.fromCharCode(65 + question.answer)}.
-        ${question.options[question.answer]}
+        ${answerLetter}.
+        ${escapeHtml(question.options[question.answer])}
       </strong>
-
       <br>
-
-      <span>
-        ${question.explanation}
-      </span>
-
+      <span>${escapeHtml(question.explanation)}</span>
     `;
-
   }
 
+  const liveScore = document.getElementById("liveScore");
 
-  document.getElementById(
-    "liveScore"
-  ).textContent = userScore;
-
+  if (liveScore) {
+    liveScore.textContent = userScore;
+  }
 
   updateFinalResult();
-
 }
 
-
-/* ==========================================
-   FINAL RESULT
-========================================== */
-
-function updateFinalResult(){
-
-  const answered =
-    currentQuestions.filter(function(q,index){
-
-      const feedback =
-        document.getElementById(
-          `feedback${index}`
-        );
-
-      return feedback &&
-             feedback.dataset.checked === "true";
-
-    }).length;
-
-
-  if(answered !== currentQuestions.length){
-
+function updateFinalResult() {
+  if (!currentQuestions.length) {
     return;
-
   }
 
-
-  const total =
-    currentQuestions.length;
-
-
-  const percentage =
-    Math.round(
-      (userScore / total) * 100
+  const answered = currentQuestions.filter(function(q, index) {
+    const feedback = document.getElementById(
+      `feedback${index}`
     );
 
+    return (
+      feedback &&
+      feedback.dataset.checked === "true"
+    );
+  }).length;
+
+  if (answered !== currentQuestions.length) {
+    return;
+  }
+
+  const total = currentQuestions.length;
+
+  const percentage = Math.round(
+    (userScore / total) * 100
+  );
 
   let message;
 
-
-  if(percentage >= 80){
-
-    message =
-      "Excellent performance! 🎉";
-
+  if (percentage >= 80) {
+    message = "Excellent performance! 🎉";
+  } else if (percentage >= 60) {
+    message = "Good work! Keep practicing. 👍";
+  } else {
+    message = "Keep learning and try again. 💪";
   }
 
-  else if(percentage >= 60){
-
-    message =
-      "Good work! Keep practicing. 👍";
-
-  }
-
-  else{
-
-    message =
-      "Keep learning and try again. 💪";
-
-  }
-
-
-  document.getElementById(
-    "finalResult"
-  ).innerHTML = `
-
+  document.getElementById("finalResult").innerHTML = `
     <div class="result">
 
       <h2>🎯 Quiz Completed</h2>
 
       <div class="result-score">
-
         ${userScore} / ${total}
-
       </div>
 
       <p>
@@ -1282,43 +837,23 @@ function updateFinalResult(){
 
       <button
         class="secondary"
-        onclick="generateQuiz()">
-
-        🔄 Try Again
-
+        onclick="generateQuiz()"
+      >
+        🔄 Generate Another Quiz
       </button>
 
     </div>
-
   `;
-
 }
 
-
-/* ==========================================
-   CREATE WITH CHATGPT
-========================================== */
-
-function createWithChatGPT(){
-
-  const exam =
-    document.getElementById("exam").value;
-
-  const subject =
-    document.getElementById("subject").value;
-
-  const topic =
-    document.getElementById("topic").value;
-
-  const difficulty =
-    document.getElementById("difficulty").value;
-
-  const count =
-    document.getElementById("questions").value;
-
+function createWithChatGPT() {
+  const exam = document.getElementById("exam").value;
+  const subject = document.getElementById("subject").value;
+  const topic = document.getElementById("topic").value;
+  const difficulty = document.getElementById("difficulty").value;
+  const count = document.getElementById("questions").value;
 
   const prompt = `
-
 Create a ${count}-question ${exam} level MCQ quiz
 for SkillUp Academy.
 
@@ -1355,24 +890,25 @@ Answer: X
 Explanation: Short explanation.
 
 Continue until all ${count} questions are completed.
-
 `;
-
 
   const url =
     "https://chatgpt.com/?q=" +
     encodeURIComponent(prompt);
 
+  window.open(url, "_blank");
+}
 
-  window.open(
-    url,
-    "_blank"
-  );
-
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 updateTopics();
-
 </script>
 
 </body>
