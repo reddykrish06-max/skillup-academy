@@ -7,6 +7,7 @@
 <title>SkillUp Academy | AI Quiz</title>
 
 <style>
+
 :root{
   --primary:#1769e0;
   --secondary:#315be8;
@@ -15,6 +16,9 @@
   --text:#172033;
   --muted:#667280;
   --border:#e1e7ef;
+  --success:#16803c;
+  --danger:#dc2626;
+  --warning:#d97706;
 }
 
 *{
@@ -27,6 +31,7 @@ body{
   font-family:Inter,Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
+  line-height:1.5;
 }
 
 header{
@@ -37,6 +42,9 @@ header{
   align-items:center;
   justify-content:space-between;
   padding:0 6%;
+  position:sticky;
+  top:0;
+  z-index:100;
 }
 
 .logo{
@@ -98,13 +106,13 @@ h2{
   gap:20px;
 }
 
-label{
+.field label{
   display:block;
   font-weight:700;
   margin-bottom:8px;
 }
 
-select,input{
+select{
   width:100%;
   padding:13px;
   border:1px solid #ccd5e0;
@@ -122,6 +130,11 @@ button{
   cursor:pointer;
 }
 
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
 .primary{
   background:var(--primary);
   color:white;
@@ -136,10 +149,20 @@ button{
   color:white;
 }
 
+.chatgpt:hover{
+  background:#000000;
+}
+
+.secondary{
+  background:#eef4ff;
+  color:var(--primary);
+}
+
 .buttons{
   display:flex;
   gap:12px;
   margin-top:25px;
+  flex-wrap:wrap;
 }
 
 .notice{
@@ -155,6 +178,23 @@ button{
   margin-top:30px;
 }
 
+.quiz-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+  margin-bottom:25px;
+}
+
+.score-box{
+  background:#eef4ff;
+  color:var(--primary);
+  padding:10px 18px;
+  border-radius:10px;
+  font-weight:800;
+}
+
 .question{
   background:white;
   border:1px solid var(--border);
@@ -167,30 +207,91 @@ button{
   margin-bottom:15px;
 }
 
+.question-text{
+  font-size:17px;
+  font-weight:600;
+  margin-bottom:15px;
+}
+
 .option{
   display:block;
-  padding:12px;
+  padding:13px;
   border:1px solid var(--border);
   border-radius:9px;
   margin:8px 0;
   cursor:pointer;
+  transition:.2s;
 }
 
 .option:hover{
   background:#f1f6ff;
+  border-color:#b9cff5;
+}
+
+.option input{
+  margin-right:10px;
+}
+
+.feedback{
+  margin-top:14px;
+  padding:12px;
+  border-radius:9px;
+  display:none;
+  font-size:14px;
+}
+
+.feedback.correct{
+  display:block;
+  background:#e9f8ef;
+  color:var(--success);
+  border:1px solid #b7e4c7;
+}
+
+.feedback.incorrect{
+  display:block;
+  background:#fff0f0;
+  color:var(--danger);
+  border:1px solid #f2b8b8;
 }
 
 .result{
   background:#e9f8ef;
   border:1px solid #b7e4c7;
-  padding:20px;
+  padding:25px;
   border-radius:15px;
-  margin-top:20px;
+  margin-top:25px;
+  text-align:center;
+}
+
+.result h2{
+  margin-bottom:10px;
+  color:var(--success);
+}
+
+.result-score{
+  font-size:32px;
+  font-weight:800;
+  margin:10px 0;
+}
+
+.empty{
+  text-align:center;
+  padding:35px;
+}
+
+.small{
+  color:var(--muted);
+  font-size:14px;
 }
 
 @media(max-width:700px){
+
   .grid{
     grid-template-columns:1fr;
+  }
+
+  .hero{
+    padding:30px 25px;
   }
 
   .hero h1{
@@ -200,7 +301,21 @@ button{
   nav{
     display:none;
   }
+
+  .card{
+    padding:20px;
+  }
+
+  .buttons{
+    flex-direction:column;
+  }
+
+  button{
+    width:100%;
+  }
+
 }
+
 </style>
 </head>
 
@@ -223,11 +338,14 @@ button{
 <div class="container">
 
   <section class="hero">
+
     <h1>🧠 AI Quiz Generator</h1>
+
     <p>
-      Create focused NEET/JEE practice quizzes by subject,
-      chapter and difficulty.
+      Create focused NEET/JEE practice quizzes by
+      subject, chapter and difficulty.
     </p>
+
   </section>
 
 
@@ -237,56 +355,80 @@ button{
 
     <div class="grid">
 
-      <div>
-        <label>Exam</label>
+      <div class="field">
+
+        <label for="exam">Exam</label>
 
         <select id="exam">
+
           <option>NEET</option>
           <option>JEE Main</option>
           <option>JEE Advanced</option>
+
         </select>
 
       </div>
 
 
-      <div>
-        <label>Subject</label>
+      <div class="field">
+
+        <label for="subject">Subject</label>
 
         <select id="subject">
 
-          <option>Physics</option>
-          <option>Chemistry</option>
-          <option>Botany</option>
-          <option>Zoology</option>
-          <option>Mathematics</option>
+          <option value="Physics">Physics</option>
+          <option value="Chemistry">Chemistry</option>
+          <option value="Botany">Botany</option>
+          <option value="Zoology">Zoology</option>
+          <option value="Mathematics">Mathematics</option>
 
         </select>
 
       </div>
 
 
-      <div>
+      <div class="field">
 
-        <label>Chapter / Topic</label>
+        <label for="topic">Chapter / Topic</label>
 
         <select id="topic">
 
-          <option>Units & Measurements</option>
-          <option>Motion in One Dimension</option>
-          <option>Laws of Motion</option>
-          <option>Work, Energy & Power</option>
-          <option>Organic Chemistry — GOC</option>
-          <option>Cell Biology</option>
-          <option>Human Physiology</option>
+          <option value="Units & Measurements">
+            Units & Measurements
+          </option>
+
+          <option value="Motion in One Dimension">
+            Motion in One Dimension
+          </option>
+
+          <option value="Laws of Motion">
+            Laws of Motion
+          </option>
+
+          <option value="Work, Energy & Power">
+            Work, Energy & Power
+          </option>
+
+          <option value="Organic Chemistry — GOC">
+            Organic Chemistry — GOC
+          </option>
+
+          <option value="Cell Biology">
+            Cell Biology
+          </option>
+
+          <option value="Human Physiology">
+            Human Physiology
+          </option>
 
         </select>
 
       </div>
 
 
-      <div>
+      <div class="field">
 
-        <label>Difficulty</label>
+        <label for="difficulty">Difficulty</label>
 
         <select id="difficulty">
 
@@ -299,16 +441,16 @@ button{
       </div>
 
 
-      <div>
+      <div class="field">
 
-        <label>Number of Questions</label>
+        <label for="questions">Number of Questions</label>
 
         <select id="questions">
 
-          <option>5</option>
-          <option selected>10</option>
-          <option>20</option>
-          <option>30</option>
+          <option value="5">5</option>
+          <option value="10" selected>10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
 
         </select>
 
@@ -319,12 +461,21 @@ button{
 
     <div class="buttons">
 
-      <button class="primary" onclick="generateQuiz()">
+      <button
+        class="primary"
+        onclick="generateQuiz()">
+
         🚀 Generate Quiz
+
       </button>
 
-      <button class="chatgpt" onclick="createWithChatGPT()">
+
+      <button
+        class="chatgpt"
+        onclick="createWithChatGPT()">
+
         ✨ Create with ChatGPT
+
       </button>
 
     </div>
@@ -333,8 +484,8 @@ button{
     <div class="notice">
 
       ⚠️ The ChatGPT button opens ChatGPT with a prepared
-      quiz-generation prompt. No OpenAI secret API key is stored
-      in this GitHub Pages website.
+      quiz-generation prompt. No OpenAI secret API key is
+      stored in this GitHub Pages website.
 
     </div>
 
@@ -347,6 +498,250 @@ button{
 
 
 <script>
+
+/* ==========================================
+   SKILLUP QUESTION BANK
+========================================== */
+
+const questionBank = [
+
+  {
+    subject:"Physics",
+    topic:"Units & Measurements",
+    difficulty:"Easy",
+    question:"Which of the following is an SI base unit?",
+    options:[
+      "Newton",
+      "Joule",
+      "Metre",
+      "Watt"
+    ],
+    answer:2,
+    explanation:
+      "Metre is one of the seven SI base units."
+  },
+
+  {
+    subject:"Physics",
+    topic:"Units & Measurements",
+    difficulty:"Medium",
+    question:"Which of the following is a dimensionless quantity?",
+    options:[
+      "Velocity",
+      "Strain",
+      "Force",
+      "Momentum"
+    ],
+    answer:1,
+    explanation:
+      "Strain is the ratio of change in length to original length, so it has no dimensions."
+  },
+
+  {
+    subject:"Physics",
+    topic:"Units & Measurements",
+    difficulty:"Medium",
+    question:"The SI unit of luminous intensity is:",
+    options:[
+      "Lumen",
+      "Lux",
+      "Candela",
+      "Watt"
+    ],
+    answer:2,
+    explanation:
+      "Candela (cd) is the SI base unit of luminous intensity."
+  },
+
+  {
+    subject:"Physics",
+    topic:"Motion in One Dimension",
+    difficulty:"Medium",
+    question:"The slope of a velocity-time graph represents:",
+    options:[
+      "Distance",
+      "Acceleration",
+      "Displacement",
+      "Momentum"
+    ],
+    answer:1,
+    explanation:
+      "The slope of a velocity-time graph gives acceleration."
+  },
+
+  {
+    subject:"Physics",
+    topic:"Motion in One Dimension",
+    difficulty:"Easy",
+    question:"The SI unit of acceleration is:",
+    options:[
+      "m/s",
+      "m/s²",
+      "km/h",
+      "N"
+    ],
+    answer:1,
+    explanation:
+      "Acceleration is change in velocity per unit time, so its SI unit is m/s²."
+  },
+
+  {
+    subject:"Physics",
+    topic:"Laws of Motion",
+    difficulty:"Easy",
+    question:"Newton's first law of motion is also known as the law of:",
+    options:[
+      "Acceleration",
+      "Inertia",
+      "Momentum",
+      "Gravitation"
+    ],
+    answer:1,
+    explanation:
+      "Newton's first law is called the law of inertia."
+  },
+
+  {
+    subject:"Physics",
+    topic:"Laws of Motion",
+    difficulty:"Medium",
+    question:"According to Newton's second law, force is equal to:",
+    options:[
+      "mv",
+      "ma",
+      "m/a",
+      "v/a"
+    ],
+    answer:1,
+    explanation:
+      "For constant mass, Newton's second law gives F = ma."
+  },
+
+  {
+    subject:"Physics",
+    topic:"Work, Energy & Power",
+    difficulty:"Easy",
+    question:"The SI unit of work is:",
+    options:[
+      "Newton",
+      "Joule",
+      "Watt",
+      "Pascal"
+    ],
+    answer:1,
+    explanation:
+      "The SI unit of work is joule (J)."
+  },
+
+
+  {
+    subject:"Chemistry",
+    topic:"Organic Chemistry — GOC",
+    difficulty:"Medium",
+    question:"Which effect involves permanent displacement of sigma electrons?",
+    options:[
+      "Inductive effect",
+      "Electromeric effect",
+      "Resonance",
+      "Hyperconjugation"
+    ],
+    answer:0,
+    explanation:
+      "The inductive effect is the permanent polarization of sigma bonds."
+  },
+
+  {
+    subject:"Chemistry",
+    topic:"Organic Chemistry — GOC",
+    difficulty:"Easy",
+    question:"Which type of bond is formed by sharing of electrons?",
+    options:[
+      "Ionic bond",
+      "Covalent bond",
+      "Metallic bond",
+      "Hydrogen bond"
+    ],
+    answer:1,
+    explanation:
+      "A covalent bond is formed by sharing electron pairs between atoms."
+  },
+
+
+  {
+    subject:"Botany",
+    topic:"Cell Biology",
+    difficulty:"Easy",
+    question:"The powerhouse of the cell is:",
+    options:[
+      "Nucleus",
+      "Ribosome",
+      "Mitochondrion",
+      "Golgi apparatus"
+    ],
+    answer:2,
+    explanation:
+      "Mitochondria generate ATP and are commonly called the powerhouse of the cell."
+  },
+
+  {
+    subject:"Botany",
+    topic:"Cell Biology",
+    difficulty:"Medium",
+    question:"Which organelle contains chlorophyll?",
+    options:[
+      "Mitochondria",
+      "Chloroplast",
+      "Ribosome",
+      "Lysosome"
+    ],
+    answer:1,
+    explanation:
+      "Chlorophyll is present in chloroplasts and participates in photosynthesis."
+  },
+
+
+  {
+    subject:"Zoology",
+    topic:"Human Physiology",
+    difficulty:"Easy",
+    question:"Which hormone primarily lowers blood glucose?",
+    options:[
+      "Glucagon",
+      "Insulin",
+      "Adrenaline",
+      "Thyroxine"
+    ],
+    answer:1,
+    explanation:
+      "Insulin promotes glucose uptake and storage and therefore lowers blood glucose."
+  },
+
+  {
+    subject:"Zoology",
+    topic:"Human Physiology",
+    difficulty:"Easy",
+    question:"The functional unit of the kidney is:",
+    options:[
+      "Neuron",
+      "Nephron",
+      "Alveolus",
+      "Sarcomere"
+    ],
+    answer:1,
+    explanation:
+      "The nephron is the structural and functional unit of the kidney."
+  }
+
+];
+
+
+/* ==========================================
+   GENERATE QUIZ
+========================================== */
+
+let currentQuestions = [];
+let userScore = 0;
+
 
 function generateQuiz(){
 
@@ -363,70 +758,434 @@ function generateQuiz(){
     document.getElementById("difficulty").value;
 
   const count =
-    document.getElementById("questions").value;
+    Number(document.getElementById("questions").value);
 
 
   const quizArea =
     document.getElementById("quizArea");
 
 
-  quizArea.innerHTML = `
+  let availableQuestions =
+    questionBank.filter(function(q){
+
+      return q.subject === subject &&
+             q.topic === topic;
+
+    });
+
+
+  /*
+     If exact difficulty does not exist,
+     use all questions for that topic.
+  */
+
+  let difficultyQuestions =
+    availableQuestions.filter(function(q){
+
+      return q.difficulty === difficulty;
+
+    });
+
+
+  if(difficultyQuestions.length > 0){
+
+    availableQuestions =
+      difficultyQuestions;
+
+  }
+
+
+  if(availableQuestions.length === 0){
+
+    quizArea.innerHTML = `
+
+      <section class="card empty">
+
+        <h2>📚 Questions Coming Soon</h2>
+
+        <p>
+          We are currently expanding the SkillUp
+          question bank for:
+        </p>
+
+        <br>
+
+        <strong>
+          ${subject} — ${topic}
+        </strong>
+
+        <br><br>
+
+        <p class="small">
+          Try another topic or use the
+          "Create with ChatGPT" option.
+        </p>
+
+      </section>
+
+    `;
+
+    return;
+
+  }
+
+
+  /*
+     Randomize questions
+  */
+
+  availableQuestions.sort(function(){
+
+    return Math.random() - 0.5;
+
+  });
+
+
+  currentQuestions =
+    availableQuestions.slice(
+      0,
+      Math.min(count, availableQuestions.length)
+    );
+
+
+  userScore = 0;
+
+
+  let html = `
 
     <section class="card">
 
-      <h2>
-        ${exam} — ${subject}
-      </h2>
+      <div class="quiz-header">
 
-      <p>
-        Topic: <strong>${topic}</strong>
-        <br>
-        Difficulty: <strong>${difficulty}</strong>
-        <br>
-        Questions: <strong>${count}</strong>
-      </p>
+        <div>
 
-      <br>
+          <h2>
+            ${exam} — ${subject}
+          </h2>
+
+          <p class="small">
+
+            Topic: <strong>${topic}</strong>
+            |
+            Difficulty:
+            <strong>${difficulty}</strong>
+
+          </p>
+
+        </div>
+
+        <div class="score-box">
+
+          Score:
+          <span id="liveScore">0</span>
+
+        </div>
+
+      </div>
+
+  `;
+
+
+  currentQuestions.forEach(function(q,index){
+
+    html += `
 
       <div class="question">
 
         <h3>
-          Sample Question
+          Question ${index + 1}
         </h3>
 
-        <p>
-          This is where the generated SkillUp
-          question will appear.
+        <p class="question-text">
+          ${q.question}
         </p>
 
-        <label class="option">
-          <input type="radio" name="q1">
-          Option A
-        </label>
+    `;
+
+
+    q.options.forEach(function(option,optionIndex){
+
+      html += `
 
         <label class="option">
-          <input type="radio" name="q1">
-          Option B
+
+          <input
+            type="radio"
+            name="question${index}"
+            value="${optionIndex}"
+          >
+
+          ${String.fromCharCode(65 + optionIndex)}.
+          ${option}
+
         </label>
 
-        <label class="option">
-          <input type="radio" name="q1">
-          Option C
-        </label>
+      `;
 
-        <label class="option">
-          <input type="radio" name="q1">
-          Option D
-        </label>
+    });
+
+
+    html += `
+
+        <button
+          class="primary"
+          onclick="checkAnswer(${index})">
+
+          Check Answer
+
+        </button>
+
+
+        <div
+          id="feedback${index}"
+          class="feedback">
+
+        </div>
 
       </div>
+
+    `;
+
+  });
+
+
+  html += `
+
+      <div id="finalResult"></div>
 
     </section>
 
   `;
 
+
+  quizArea.innerHTML = html;
+
+
+  window.scrollTo({
+
+    top:quizArea.offsetTop - 20,
+    behavior:"smooth"
+
+  });
+
 }
 
+
+/* ==========================================
+   CHECK ANSWER
+========================================== */
+
+function checkAnswer(index){
+
+  const question =
+    currentQuestions[index];
+
+
+  const selected =
+    document.querySelector(
+      `input[name="question${index}"]:checked`
+    );
+
+
+  const feedback =
+    document.getElementById(
+      `feedback${index}`
+    );
+
+
+  if(!selected){
+
+    feedback.className =
+      "feedback incorrect";
+
+    feedback.innerHTML =
+      "⚠️ Please select an answer.";
+
+    return;
+
+  }
+
+
+  const selectedAnswer =
+    Number(selected.value);
+
+
+  /*
+     Prevent changing score repeatedly
+  */
+
+  if(feedback.dataset.checked === "true"){
+
+    return;
+
+  }
+
+
+  feedback.dataset.checked = "true";
+
+
+  if(selectedAnswer === question.answer){
+
+    userScore++;
+
+
+    feedback.className =
+      "feedback correct";
+
+
+    feedback.innerHTML = `
+
+      ✅ <strong>Correct!</strong>
+
+      <br>
+
+      <span>
+        ${question.explanation}
+      </span>
+
+    `;
+
+  }
+
+  else{
+
+    feedback.className =
+      "feedback incorrect";
+
+
+    feedback.innerHTML = `
+
+      ❌ <strong>Incorrect.</strong>
+
+      <br>
+
+      Correct answer:
+      <strong>
+        ${String.fromCharCode(65 + question.answer)}.
+        ${question.options[question.answer]}
+      </strong>
+
+      <br>
+
+      <span>
+        ${question.explanation}
+      </span>
+
+    `;
+
+  }
+
+
+  document.getElementById(
+    "liveScore"
+  ).textContent = userScore;
+
+
+  updateFinalResult();
+
+}
+
+
+/* ==========================================
+   FINAL RESULT
+========================================== */
+
+function updateFinalResult(){
+
+  const answered =
+    currentQuestions.filter(function(q,index){
+
+      const feedback =
+        document.getElementById(
+          `feedback${index}`
+        );
+
+      return feedback &&
+             feedback.dataset.checked === "true";
+
+    }).length;
+
+
+  if(answered !== currentQuestions.length){
+
+    return;
+
+  }
+
+
+  const total =
+    currentQuestions.length;
+
+
+  const percentage =
+    Math.round(
+      (userScore / total) * 100
+    );
+
+
+  let message;
+
+
+  if(percentage >= 80){
+
+    message =
+      "Excellent performance! 🎉";
+
+  }
+
+  else if(percentage >= 60){
+
+    message =
+      "Good work! Keep practicing. 👍";
+
+  }
+
+  else{
+
+    message =
+      "Keep learning and try again. 💪";
+
+  }
+
+
+  document.getElementById(
+    "finalResult"
+  ).innerHTML = `
+
+    <div class="result">
+
+      <h2>🎯 Quiz Completed</h2>
+
+      <div class="result-score">
+
+        ${userScore} / ${total}
+
+      </div>
+
+      <p>
+        ${percentage}% — ${message}
+      </p>
+
+      <br>
+
+      <button
+        class="secondary"
+        onclick="generateQuiz()">
+
+        🔄 Try Again
+
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+
+/* ==========================================
+   CREATE WITH CHATGPT
+========================================== */
 
 function createWithChatGPT(){
 
@@ -466,9 +1225,26 @@ Requirements:
 5. Follow NCERT-based concepts where applicable.
 6. Make the questions suitable for ${exam}.
 7. Do not repeat questions.
-8. Format clearly for students.
+8. Include conceptual and exam-oriented questions.
+9. Format clearly for students.
+10. Verify the scientific accuracy of every answer.
 
-  `;
+Format:
+
+Q1. Question
+
+A. Option
+B. Option
+C. Option
+D. Option
+
+Answer: X
+
+Explanation: Short explanation.
+
+Continue until all ${count} questions are completed.
+
+`;
 
 
   const url =
@@ -476,7 +1252,10 @@ Requirements:
     encodeURIComponent(prompt);
 
 
-  window.open(url,"_blank");
+  window.open(
+    url,
+    "_blank"
+  );
 
 }
 
